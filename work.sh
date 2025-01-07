@@ -22,7 +22,7 @@ awk '$4==2' ins.seq.aSat.bed|awk '{print $1"\t"$2"\t"$3"\tother_repeat"}'  > ins
 # sd
 minimap2 -cxasm20 -r2k --cs  -t 24 ${reference_sd.fasta} INS.fasta > ins.map2ref.paf
 cat ins.map2ref.paf|awk '{print $1"\t"$2"\t"$3"\t"$4"\t"($4-$3)/$2"\t"$6"\t"$7"\t"$8"\t"$9"\t"($9-$8)/$7"\t"$10/$11}'  > ins.map2ref.sd.info
-awk '$4-$3>=1000 && $5>=0.2' ins.map2ref.sd.info > ins.map2ref.sd.info.filt
+awk '$4-$3>=1000 && $5>=0.2 && $11>0.9' ins.map2ref.sd.info > ins.map2ref.sd.info.filt
 cut -f 1,3,4 ins.map2ref.sd.info.filt|sort -k1,1V -k2n | uniq |sort -k1,1V -k2n| bedtools merge -i - | awk '{print $0"\tSD"}'> ins.sd.bed
 
 
